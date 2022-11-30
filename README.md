@@ -6,7 +6,7 @@ Autoren: Mario Pfob, Marius Harrass
 
 ## 1. Definition Cluster-Analyse
 
-Bei der Cluster-Analyse handelt es sich um ein exploratives Verfahren zur Datenanalyse, welches unter anderem auch im Berech des unüberwachten maschinellen Lernens Einsatz findet. Das primäre Ziel einer Cluster-Analyse ist dabei, eine Menge von Klassifikationsobjekten in homogene Gruppen zusammenzufassen (vgl. Backhaus, K. et al (2021)). \
+Bei der Cluster-Analyse handelt es sich um ein exploratives Verfahren zur Datenanalyse, welches unter anderem auch im Berech des unüberwachten maschinellen Lernens Einsatz findet. Das primäre Ziel einer Cluster-Analyse ist dabei, eine Menge von Klassifikationsobjekten in homogene Gruppen zusammenzufassen *(vgl. Backhaus, K. et al (2021))*. \
 Unter dem Begriff 'Cluster-Analyse' können verschiedene Verfahren zur Anwendung kommen. Eine grundlegende Unterschiedung wird dabei zwischen hierarchischen und partitionierenden Verfahren gemacht. Beide Verfahren werden in Abschnitt 4 und Abschnitt 5 an einem Beispiel verdeutlicht.
 
 ![Unterscheidung Clusterverfahren](images/Unterscheidung_Clusterverfahren.png) \
@@ -79,7 +79,7 @@ Die Bearbeitung dieser Aufgaben ist durch die Grafiken *Plot 2* & *Plot 3* und *
 ## 4. Cluster-Analyse: KMeans
 
 Die K-Means Analyse ist eine der am häufigsten angewandten Techniken im Rahmen von partitionierenden Cluster-Analysen.\
-Grundlage ist der in 1982 veröffentlichte Lloyds-Algorithmus (vgl. Shindler, M).\
+Grundlage ist der in 1982 veröffentlichte Lloyds-Algorithmus *(vgl. Shindler, M)*.\
 Innerhalb eines Datensatzes wird eine definierte Anzahl von Cluster-Zentren zufällig gewählt. Die Datenpunkte des Datensatzes werden dann demjenigen Cluster zugeordnet, dessen Varianz am geringsten erhöht wird. Grundlage der Varianzberechnung bildet dabei die euklidische Distanz zwischen den Datenpunkten innerhalb eines Clusters und dem jeweiligen Clusterzentrum.\
 Ist die Zuordnung aller Datenpunkte erfolgt, wird der Mittelwert aller Datenpunkte innerhalb eines Clusters berechnet und als neues Clusterzentrum definiert. Anschließend wird eine erneute Zuordnung der Datenpunkte zu den nun verändert positionierten Clusterzentren vorgenommen.
 Diese Schritte werden iterativ ausgeführt, wobei Datenpunkte zwischen den Clustern wechseln können.\
@@ -92,10 +92,39 @@ Der iterative Prozess wird beendet, sobald keine Neuzuordnung von Datenpunkten m
 Für den Vorliegenden Datensatz wird die k-means Analyse im Folgenden mit *k* = 3 Clustern angewandt.\
 Die zugrundeliegende Annahme besteht darin, dass bei den Packstücken eine Aufteilung in Kleingut, Speditionsware und Sondertransporte vorliegt.
 
-![k-means mit *k* = 3 Clustern](images/k-means mit 3 Clustern.png) \
+![k-means mit 3 Clustern](images/k-means mit 3 Clustern.png) \
 *Plot 4: k-means mit k = 3 Clustern*\
 *Quelle: Eigendarstellung mittels Matplotlib*
 
+Eine Betrachtung von *Plot 4* zeigt, dass die durch k-means definierten Cluster stark unterschiedliche Varianzen aufweisen. Auffallend ist dabei eine sehr unterschiedliche Verteilung innerhalb des Clusters mit den kleinsten Packstücken. Dies legt die Frage nahe, ob die Anzahl der Cluster mit *k* = 3 richtig gewählt ist.
+
+Einen Hinweis auf die ideale Anzahl von Clustern kann die sogeannnte Elbow-Analyse geben.\
+Bei dieser wird die Varainz als Durchschnitt der quadrierten euklidischen Distanz errechnet. In einem Diagramm wird diese Varianz dann in Abhängigkeit der Clusteranzahl abgebildet.\
+Für den gewählten Datensatz ergibt sich dabei die folgende Darstellung (*Plot 5*).
+
+![Elbow-Methode k-means](images/Elbow-Methode k-means.png) \
+*Plot 5: Darstellung der Varianz in Abhängigkeit der Cluster-Anzahl*
+*Quelle: Eigendarstellung mittels Matplotlib*
+
+In der in *Plot 5* dargestellten Elbow-Analyse weißt ein Knick, der 'Elbow' auf die optimale Anzahl von Clustern hin.\
+Nach *Backhaus, K. et al.(2021)* ist der bei *k* = 2 zu sehende Knick bei der Interpretation zu ignorieren, da zwischen einem und zwei Clustern immer die größte Änderung in der Varianz zu erwarten ist. Für den vorliegenden Datensatz ist enstprechend der Elbow-Analyse also eine Anzahl von *k* = 4 Clustern zu empfehlen.\
+Das Ergebnis der k-Means Analyse mit *k* = 4 Clustern wird in *Plot 6* abgebildet.
+
+![k-means mit 4Clustern](images/k-means mit 4 Clustern.png) \
+*Plot 6: k-means mit k = 4 Clustern*\
+*Quelle: Eigendarstellung mittels Matplotlib*
+
+Eine weitere Optimierung des Ergebnisses aus dem k-means Verfahren kann durch die Optimierung der Clusterzentren bei der initialen Auswahl erreicht werden.\
+In der gewöhnlichen k-means Analyse werden die intialen Clusterzentren mit gleichförmiger Wahrscheinlichkeit über den gesamten Datenraum ausgewählt. Dies kann das Ergebnis des iterativen Prozesses negativ beinflussen und zu suboptimalen Lösungen führen *(vgl. Arthur, D.(2007))*.
+
+Einen Vorschlag zur optimierten Auswahl der initialen Clusterzentren machen David Arthur and Sergei Vassilvitskii im Jahr 2007. Grundlage der von Ihnen vorgeschlagenen Verbessrung k-means++ bildet eine Anpassung der Wahrscheinlichkeitsverteilung bei der Auswahl der initalen Clusterzentren.\
+Statt alle Clusterzentren mit einer gleichförmigen Wahrscheinlichkeit innerhlab des Datenraumes auszuwählen wird lediglich das erste Clusterzentrum vollständig zufällig ausgewählt. Bei der Auwahl der weiteren Clusterzentren steigt die Wahrscheinlichkeit einer Wahl mit der Entferung zum nächstegelenen bereist gewählten Clusterzentrum. Diese angepasste Auswahl hat in zahlreichen Experimenten zu einer geringeren Varianz innerhalb der Cluster geführt, als mit einer regulären k-means Analyse erreicht werden konnte.
+
+Für den vorliegenden Datensatz konnte mit der Anwendung von k-means++ keine weitere Veränderung des Ergebnisses erreicht werden, wie in *Plot 7* zu erkennen ist.\
+
+![k-means++ mit 4 Clustern](images/k-means plus.png)\
+*Plot 7: k-means++ mit k = 4 Clustern*\
+*Quelle: Eigendarstellung mittels Matplotlib*
 
 
 ## 5. Cluster-Analyse: Hierarchisch
