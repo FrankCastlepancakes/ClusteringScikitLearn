@@ -6,19 +6,19 @@ Autoren: Mario Pfob, Marius Harrass
 
 ## 1. Definition Cluster-Analyse
 
-Bei der Cluster-Analyse handelt es sich um ein exploratives Verfahren zur Datenanalyse, welches unter anderem auch im Berech des unüberwachten maschinellen Lernens Einsatz findet. Das primäre Ziel einer Cluster-Analyse ist dabei, eine Menge von Klassifikationsobjekten in homogene Gruppen zusammenzufassen (vgl. Backhaus, K. (2021)). \
+Bei der Cluster-Analyse handelt es sich um ein exploratives Verfahren zur Datenanalyse, welches unter anderem auch im Berech des unüberwachten maschinellen Lernens Einsatz findet. Das primäre Ziel einer Cluster-Analyse ist dabei, eine Menge von Klassifikationsobjekten in homogene Gruppen zusammenzufassen (vgl. Backhaus, K. et al (2021)). \
 Unter dem Begriff 'Cluster-Analyse' können verschiedene Verfahren zur Anwendung kommen. Eine grundlegende Unterschiedung wird dabei zwischen hierarchischen und partitionierenden Verfahren gemacht. Beide Verfahren werden in Abschnitt 4 und Abschnitt 5 an einem Beispiel verdeutlicht.
 
 ![Unterscheidung Clusterverfahren](images/Unterscheidung_Clusterverfahren.png) \
 *Unterschiedung der Clustervefahren* \
-*Eigene Darstellung nach Backhaus, K. (2021)*
+*Eigene Darstellung nach Backhaus, K. et al (2021), S.507*
 
 In der Praxis wird eine Cluster-Analyse häufig genutzt, um heterogene Datensätze in homogene Cluster aufzuteilen, die dann mit weiteren Analysemethoden genauer untersucht werden. \
 Wichtig ist dabei die Abgrenzung zur Klassifikation. Die Cluster-Analyse zielt darauf ab, bisher unbekannte Gruppen innerhalb eines Datensatzes zu identifizieren. Bei der Klassifikation hingegen werden verschiedene Instanzen basierend auf deren Merkmalen bereits bestehenden Gruppen zugeordnet.
 
 ## 2. Kontext Datensatz
 
-Für die Anwenderung der hierarchischen und partitionierenden Clusteranalyse wird der in *Tabelle 1* auschnittsweise dargestellte Datensatz zugrunde gelegt.
+Für die Anwenderung der hierarchischen und partitionierenden Clusteranalyse wird der in *Tabelle 1* ausschnittsweise dargestellte Datensatz zugrunde gelegt.
 
 ![Ausschnitt Datensatz](images/Datensatz.png)\
 *Tabelle 1: Ausschnitt Packstück-Datensatz*\
@@ -77,6 +77,26 @@ Die Bearbeitung dieser Aufgaben ist durch die Grafiken *Plot 2* & *Plot 3* und *
 *Quelle: Eigendarstellung durch Pandas*
 
 ## 4. Cluster-Analyse: KMeans
+
+Die K-Means Analyse ist eine der am häufigsten angewandten Techniken im Rahmen von partitionierenden Cluster-Analysen.\
+Grundlage ist der in 1982 veröffentlichte Lloyds-Algorithmus (vgl. Shindler, M).\
+Innerhalb eines Datensatzes wird eine definierte Anzahl von Cluster-Zentren zufällig gewählt. Die Datenpunkte des Datensatzes werden dann demjenigen Cluster zugeordnet, dessen Varianz am geringsten erhöht wird. Grundlage der Varianzberechnung bildet dabei die euklidische Distanz zwischen den Datenpunkten innerhalb eines Clusters und dem jeweiligen Clusterzentrum.\
+Ist die Zuordnung aller Datenpunkte erfolgt, wird der Mittelwert aller Datenpunkte innerhalb eines Clusters berechnet und als neues Clusterzentrum definiert. Anschließend wird eine erneute Zuordnung der Datenpunkte zu den nun verändert positionierten Clusterzentren vorgenommen.
+Diese Schritte werden iterativ ausgeführt, wobei Datenpunkte zwischen den Clustern wechseln können.\
+Der iterative Prozess wird beendet, sobald keine Neuzuordnung von Datenpunkten mehr erfolgt.
+
+![Prozess k-means](images/Prozess_k-means.png)\
+*Prozess der k-means Methode*\
+*Entnommen aus: Backhaus, K. et al. (2021), S.567*
+
+Für den Vorliegenden Datensatz wird die k-means Analyse im Folgenden mit *k* = 3 Clustern angewandt.\
+Die zugrundeliegende Annahme besteht darin, dass bei den Packstücken eine Aufteilung in Kleingut, Speditionsware und Sondertransporte vorliegt.
+
+![k-means mit *k* = 3 Clustern](images/k-means mit 3 Clustern.png) \
+*Plot 4: k-means mit k = 3 Clustern*\
+*Quelle: Eigendarstellung mittels Matplotlib*
+
+
 
 ## 5. Cluster-Analyse: Hierarchisch
 
