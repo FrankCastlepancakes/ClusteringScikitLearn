@@ -52,14 +52,68 @@ Die Bearbeitung dieser Aufgaben ist durch die Grafiken *Plot 2* & *Plot 3* und *
 *Plot 3: Der Packstücke-Datensatz nach der Daten-Aufbereitung. Die Eigenschaften 'Volumen' und 'Gewicht' sind mit standardisisierten Skalen als Scatter-Plot visualisiert* \
 *Quelle: Eigendarstellung mittels Matplotlib*
 
-![Tabellarische_Darstellung_Datenaufbereitung](images/Tabellarische_Darstellung_Datenaufbereitung.png) \
-*Tabelle 1: Die ersten zehn Zeilen des Datensatzes vor und nach der Aufbereitung*
+![Tabellarische Darstellung Datenaufbereitung](images/Tabellarische_Darstellung_Datenaufbereitung.png) \
+*Tabelle 1: Die ersten zehn Zeilen des Datensatzes vor und nach der Aufbereitung* \
 *Quelle: Eigendarstellung durch Pandas*
 
 ## 4. Cluster-Analyse: KMeans
 
 ## 5. Cluster-Analyse: Hierarchisch
 
+Um einen Eindruck für die hierarchische Cluster-Bildung in einem bestimmten Datensatz zu erlangen, führen *Schonlau, Matthias (2002)* das sogenannte **Dendrogramm** auf. Das Dendrogramm kann zu einem gewissen Teil mit dem Aufbau eines Familienstammbaums verglichen werden: Je nach Betrachtungsrichtung fügen sich die Datenpunkte (vgl. zu einzelne Personen im Familienstammbaum) entweder zusammen oder spalten sich auf. Für den Packstück-Datensatz ist das Dendrogramm unter *Plot 4* zu sehen.
+
+![Dendrogram package data](images/Dendrogram_Package_Data.png) \
+*Plot 4: Dendrogramm des Packstück-Datensatzes (Linkage ist ‘ward‘)* \
+*Quelle: Eigendarstellung mittels Matplotlib*
+
+#
+Die Autoren *Sasirekha, K./Baby, P. (2013)* beschreiben derweil die zwei unterschiedlichen Möglichkeiten zur Clusterbildung, welche ebenfalls am Dendrogramm abzulesen sind:
+- Divisiv (dt. spaltend), d.h. die Cluster werden von oben nach unten rekursiv gebildet
+- Agglomerative, d.h. die Cluster von unten nach oben. Jeder Datenpunkt bekommt dabei zu Beginn sein eigenes Cluster. Diese einzelnen Cluster werden rekursiv verschmolzen
+
+In den folgenden Abschnitten soll der Fokus auf der agglomerativen Clusterbildung liegen.
+
+Wie bereits im Dendrogramm (*Plot 4*) zu sehen, ist die Distanz der Datenpunkte zueinander relevant für die Clusterbildung. Nach *Sasirekha, K./Baby, P. (2013)* existieren zur Distanz-Berechnung folgende mathematische Verfahren:
+- Euklidische Distanz: $$ d(p, q) = {\sqrt{ \sum_{i=1}^n (q_i - p_i)^2 } } $$
+- Quadratische euklidische Distanz *(nicht in Scikit-learn)*: $$ d^2(p, q) = {\sqrt{ \sum_{i=1}^n (q_i - p_i)^2 } } $$
+- Manhattan Distanz: $$ d(p, q) = { \sum_{i=1}^n | q_i - p_i | } $$
+- Maximum Distanz *(nicht in Scikit-learn)*
+- Mahalanobis Distanz *(nicht in Scikit-learn)*
+- Kosinus Ähnlichkeit
+
+Derweil beschreiben *Carvalho, Alexandre X. Y. u. a. (2009)* zwei weitere Verfahren zur Distanz-Berechnung:
+- L2 (euklidische Norm)
+- L1 (Summennorm)
+
+Nachdem nun verschiedene Methoden zur Distanz-Berechnung vorliegen, fehlt für die Bildung der Cluster eine Methode zu welcher Distanz ein Cluster gebildet werden kann. *Murtagh, F. (1983)* führt dabei sechs Möglichkeiten auf:
+- Single linkage (minimaler Abstand)
+- Complete linkage (maximaler Abstand)
+- Average linkage (Mittelwert)
+- Median linkage
+- Centroid linkage (Cluster-Schwerpunkte)
+- Ward‘s linkage (min. Zuwachs totaler Varianz)
+
+Für einen Vergleich der verschiedenen Methoden zur Distanz-Berechnung, Cluster-Bildung und der daraus entstehenden Cluster, ist gemäß *Shahapure, Ketan R./Nicholas, Charles (2020)* der **Silhouette-Score** eine geeignete Metrik. Dieser Score setzt sich aus dem Mittelwert aller Silhouetten-Koeffizienten zusammen. Ein Score nahe **1** bedeutet dabei, dass die Datenpunkte in den korrekten Cluster liegen. Wohingegen ein Score nahe **-1** aussagt, dass die Datenpunkte in den falschen Clustern liegen. Ist der Score nahe **0**, existieren möglicherweise Überlappungen zwischen den Clustern.
+
+In *Plot 5* ist ein Vergleich der in Scikit-Learn vorhanden Methoden zur Distanz-Berechnung zu sehen. Die Manhattan-Distanz und die Summennorm weißen dabei den höchsten Score auf. Darauf folgend könnenen die Methoden zur Cluster-Bildung verglichen werden - siehe *Plot 6*.
+
+![Affinity comparison barchart](images/Affinity_Comparison_Barchart.png) \
+*Plot 5: Vergleich der Methoden zur Distanz-Berechnung* \
+*Quelle: Eigendarstellung mittels Matplotlib*
+
+![Comparison linkage methods and amount clusters](images/Comparison_Linkage_Method_Amount_Clusters.png) \
+*Plot 6: Vergleich der Methoden zur Cluster-Bildung und der Anzahl der Cluster* \
+*Quelle: Eigendarstellung mittels Matplotlib*
+
+![Package data with hierarchical clusters](images/Package_Data_Hierarchical_Clusters.png) \
+*Plot 7: Der Packstück-Datensatz mit vorgeschlagenen Anzahl von zwei Hierarchischen-Clustern* \
+*Quelle: Eigendarstellung mittels Matplotlib*
+
 ## 6. Fazit
+- Zu verwendete Cluster-Methode hängt von Verteilung der Daten ab
+- Daten-Aufbereitung daher von zentraler Bedeutung
+- Der Silhouette-Score ist eine wichtige Metrik zur Bewertung des Clusterings
+- Weitere mögliche Cluster-Methoden: GMM, DBSCAN, …
+- Relevant: Interpretation des Ergebnisses
 
 ## 7. Kritische Reflexion
