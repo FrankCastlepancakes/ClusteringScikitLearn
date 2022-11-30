@@ -6,7 +6,27 @@ Autoren: Mario Pfob, Marius Harrass
 
 ## 1. Definition Cluster-Analyse
 
+Bei der Cluster-Analyse handelt es sich um ein exploratives Verfahren zur Datenanalyse, welches unter anderem auch im Berech des unüberwachten maschinellen Lernens Einsatz findet. Das primäre Ziel einer Cluster-Analyse ist dabei, eine Menge von Klassifikationsobjekten in homogene Gruppen zusammenzufassen (vgl. Backhaus, K. (2021)). \
+Unter dem Begriff 'Cluster-Analyse' können verschiedene Verfahren zur Anwendung kommen. Eine grundlegende Unterschiedung wird dabei zwischen hierarchischen und partitionierenden Verfahren gemacht. Beide Verfahren werden in Abschnitt 4 und Abschnitt 5 an einem Beispiel verdeutlicht.
+
+![Unterscheidung Clusterverfahren](images/Unterscheidung_Clusterverfahren.png) \
+*Unterschiedung der Clustervefahren* \
+*Eigene Darstellung nach Backhaus, K. (2021)*
+
+In der Praxis wird eine Cluster-Analyse häufig genutzt, um heterogene Datensätze in homogene Cluster aufzuteilen, die dann mit weiteren Analysemethoden genauer untersucht werden. \
+Wichtig ist dabei die Abgrenzung zur Klassifikation. Die Cluster-Analyse zielt darauf ab, bisher unbekannte Gruppen innerhalb eines Datensatzes zu identifizieren. Bei der Klassifikation hingegen werden verschiedene Instanzen basierend auf deren Merkmalen bereits bestehenden Gruppen zugeordnet.
+
 ## 2. Kontext Datensatz
+
+Für die Anwenderung der hierarchischen und partitionierenden Clusteranalyse wird der in *Tabelle 1* auschnittsweise dargestellte Datensatz zugrunde gelegt.
+
+![Ausschnitt Datensatz](images/Datensatz.png)\
+*Tabelle 1: Ausschnitt Packstück-Datensatz*\
+*Quelle: Eigendarstellung durch pandas*
+
+Innerhalb des Datensatzes werden verschiedene Packstücke abgebildet. Die 'Package No' dient dabei als eindeutiger Identifikator. Die Kombinationen aus 'Weight', 'Width', 'Height' und 'Length' ergeben verschieden große und schwere Packstücke. Als ergänzende Information ist die 'Shipment No' angegeben, mit der mehrere Packstücke in der Abwicklung zusammengefasst sein können.\
+Die in den folgenden Abschnitten angwandte Cluster-Analysen sollen der Beantwortung folgender Frage dienen:\
+"Welche Gruppen gleichartiger Packstücke können gebildet werden, um diese mit spezialisierten Teams zu bearbeiten?"
 
 ## 3. Daten visualisieren & aufbereiten
 
@@ -53,7 +73,7 @@ Die Bearbeitung dieser Aufgaben ist durch die Grafiken *Plot 2* & *Plot 3* und *
 *Quelle: Eigendarstellung mittels Matplotlib*
 
 ![Tabellarische Darstellung Datenaufbereitung](images/Tabellarische_Darstellung_Datenaufbereitung.png) \
-*Tabelle 1: Die ersten zehn Zeilen des Datensatzes vor und nach der Aufbereitung* \
+*Tabelle 2: Die ersten zehn Zeilen des Datensatzes vor und nach der Aufbereitung* \
 *Quelle: Eigendarstellung durch Pandas*
 
 ## 4. Cluster-Analyse: KMeans
