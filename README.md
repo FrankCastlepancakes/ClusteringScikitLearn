@@ -58,7 +58,7 @@ Transferiert auf die Vorbereitung in diesem Abschnitt, ist dementsprechend zuers
 - **Data Normalization**, d.h. alle (metrischen) Spalten sollen auf eine einheitliche Metrik standardisiert werden
 - **Feature Selection**, so werden bspw. die Spalten 'Package No' und 'Shipment No' für die Cluster-Analyse nicht benötigt
 
-Die Bearbeitung dieser Aufgaben ist durch die Grafiken *Plot 2* & *Plot 3* und *Tabelle 1* zu nachzuvollziehen.
+Die Bearbeitung dieser Aufgaben ist durch die Grafiken *Plot 2* & *Plot 3* und *Tabelle 2* zu nachzuvollziehen.
 
 ![Package data before preprocessing](images/Package_Data_Before_Preprocessing.png) \
 *Plot 1: Der Packstücke-Datensatz bevor dem Prozess der Daten-Aufbereitung. Die Eigenschaften 'Length' und 'Height' sind als Scatter-Plot visualisiert* \
@@ -92,7 +92,7 @@ Der iterative Prozess wird beendet, sobald keine Neuzuordnung von Datenpunkten m
 Für den Vorliegenden Datensatz wird die k-means Analyse im Folgenden mit *k* = 3 Clustern angewandt.\
 Die zugrundeliegende Annahme besteht darin, dass bei den Packstücken eine Aufteilung in Kleingut, Speditionsware und Sondertransporte vorliegt.
 
-![k-means mit 3 Clustern](images/k-means mit 3 Clustern.png) \
+![k-means mit 3 Clustern](images/k-means_mit_3_Clustern.png) \
 *Plot 4: k-means mit k = 3 Clustern*\
 *Quelle: Eigendarstellung mittels Matplotlib*
 
@@ -102,7 +102,7 @@ Einen Hinweis auf die ideale Anzahl von Clustern kann die sogeannnte Elbow-Analy
 Bei dieser wird die Varainz als Durchschnitt der quadrierten euklidischen Distanz errechnet. In einem Diagramm wird diese Varianz dann in Abhängigkeit der Clusteranzahl abgebildet.\
 Für den gewählten Datensatz ergibt sich dabei die folgende Darstellung (*Plot 5*).
 
-![Elbow-Methode k-means](images/Elbow-Methode k-means.png) \
+![Elbow-Methode k-means](images/Elbow-Methode_k-means.png) \
 *Plot 5: Darstellung der Varianz in Abhängigkeit der Cluster-Anzahl*
 *Quelle: Eigendarstellung mittels Matplotlib*
 
@@ -110,7 +110,7 @@ In der in *Plot 5* dargestellten Elbow-Analyse weißt ein Knick, der 'Elbow' auf
 Nach *Backhaus, K. et al.(2021)* ist der bei *k* = 2 zu sehende Knick bei der Interpretation zu ignorieren, da zwischen einem und zwei Clustern immer die größte Änderung in der Varianz zu erwarten ist. Für den vorliegenden Datensatz ist enstprechend der Elbow-Analyse also eine Anzahl von *k* = 4 Clustern zu empfehlen.\
 Das Ergebnis der k-Means Analyse mit *k* = 4 Clustern wird in *Plot 6* abgebildet.
 
-![k-means mit 4Clustern](images/k-means mit 4 Clustern.png) \
+![k-means mit 4 Clustern](images/k-means_mit_4_Clustern.png) \
 *Plot 6: k-means mit k = 4 Clustern*\
 *Quelle: Eigendarstellung mittels Matplotlib*
 
@@ -122,17 +122,17 @@ Statt alle Clusterzentren mit einer gleichförmigen Wahrscheinlichkeit innerhlab
 
 Für den vorliegenden Datensatz kann mit der Anwendung von k-means++ keine weitere Veränderung des Ergebnisses erreicht werden, wie in *Plot 7* zu erkennen ist.\
 
-![k-means++ mit 4 Clustern](images/k-means plus.png)\
+![k-means++ mit 4 Clustern](images/k-means_plus.png)\
 *Plot 7: k-means++ mit k = 4 Clustern*\
 *Quelle: Eigendarstellung mittels Matplotlib*
 
 
 ## 5. Cluster-Analyse: Hierarchisch
 
-Um einen Eindruck für die hierarchische Cluster-Bildung in einem bestimmten Datensatz zu erlangen, führen *Schonlau, Matthias (2002)* das sogenannte **Dendrogramm** auf. Das Dendrogramm kann zu einem gewissen Teil mit dem Aufbau eines Familienstammbaums verglichen werden: Je nach Betrachtungsrichtung fügen sich die Datenpunkte (vgl. zu einzelne Personen im Familienstammbaum) entweder zusammen oder spalten sich auf. Für den Packstück-Datensatz ist das Dendrogramm unter *Plot 4* zu sehen.
+Um einen Eindruck für die hierarchische Cluster-Bildung in einem bestimmten Datensatz zu erlangen, führen *Schonlau, Matthias (2002)* das sogenannte **Dendrogramm** auf. Das Dendrogramm kann zu einem gewissen Teil mit dem Aufbau eines Familienstammbaums verglichen werden: Je nach Betrachtungsrichtung fügen sich die Datenpunkte (vgl. zu einzelne Personen im Familienstammbaum) entweder zusammen oder spalten sich auf. Für den Packstück-Datensatz ist das Dendrogramm unter *Plot 8* zu sehen.
 
 ![Dendrogram package data](images/Dendrogram_Package_Data.png) \
-*Plot 4: Dendrogramm des Packstück-Datensatzes (Linkage ist ‘ward‘)* \
+*Plot 8: Dendrogramm des Packstück-Datensatzes (Linkage ist ‘ward‘)* \
 *Quelle: Eigendarstellung mittels Matplotlib*
 
 #
@@ -142,7 +142,7 @@ Die Autoren *Sasirekha, K./Baby, P. (2013)* beschreiben derweil die zwei untersc
 
 In den folgenden Abschnitten soll der Fokus auf der agglomerativen Clusterbildung liegen.
 
-Wie bereits im Dendrogramm (*Plot 4*) zu sehen, ist die Distanz der Datenpunkte zueinander relevant für die Clusterbildung. Nach *Sasirekha, K./Baby, P. (2013)* existieren zur Distanz-Berechnung folgende mathematische Verfahren:
+Wie bereits im Dendrogramm (*Plot 8*) zu sehen, ist die Distanz der Datenpunkte zueinander relevant für die Clusterbildung. Nach *Sasirekha, K./Baby, P. (2013)* existieren zur Distanz-Berechnung folgende mathematische Verfahren:
 - Euklidische Distanz: $$ d(p, q) = {\sqrt{ \sum_{i=1}^n (q_i - p_i)^2 } } $$
 - Quadratische euklidische Distanz *(nicht nativ in Scikit-learn)*: $$ d^2(p, q) = {\sqrt{ \sum_{i=1}^n (q_i - p_i)^2 } } $$
 - Manhattan Distanz: $$ d(p, q) = { \sum_{i=1}^n | q_i - p_i | } $$
@@ -164,18 +164,18 @@ Nachdem nun verschiedene Methoden zur Distanz-Berechnung vorliegen, fehlt für d
 
 Für einen Vergleich der verschiedenen Methoden zur Distanz-Berechnung, Cluster-Bildung und der daraus entstehenden Cluster, ist gemäß *Shahapure, Ketan R./Nicholas, Charles (2020)* der **Silhouette-Score** eine geeignete Metrik. Dieser Score setzt sich aus dem Mittelwert aller Silhouetten-Koeffizienten zusammen. Ein Score nahe **1** bedeutet dabei, dass die Datenpunkte in den korrekten Cluster liegen. Wohingegen ein Score nahe **-1** aussagt, dass die Datenpunkte in den falschen Clustern liegen. Ist der Score nahe **0**, existieren möglicherweise Überlappungen zwischen den Clustern.
 
-In *Plot 5* ist ein Vergleich der in Scikit-Learn vorhanden Methoden zur Distanz-Berechnung zu sehen. Die Manhattan-Distanz und die Summennorm weißen dabei den höchsten Score auf. Darauf folgend könnenen die Methoden zur Cluster-Bildung verglichen werden - siehe *Plot 6*. Dabei sei angemerkt, dass die Ward-Methode in Scikit-Learn lediglich mit der euklidischen Distanz genutzt werden kann. Durch *Plot 6* ist ersichtlich, dass die L1-Distanz mit dem minimalsten Abstand und bei zwei Clustern den besten Score vorweisen kann. In *Plot 7* ist schlussendlich der Packstück-Datensatz mit den Cluster-Ergebnissen aus den L1- und Single-Linkage-Methoden visualisiert.
+In *Plot 9* ist ein Vergleich der in Scikit-Learn vorhanden Methoden zur Distanz-Berechnung zu sehen. Die Manhattan-Distanz und die Summennorm weißen dabei den höchsten Score auf. Darauf folgend könnenen die Methoden zur Cluster-Bildung verglichen werden - siehe *Plot 10*. Dabei sei angemerkt, dass die Ward-Methode in Scikit-Learn lediglich mit der euklidischen Distanz genutzt werden kann. Durch *Plot 10* ist ersichtlich, dass die L1-Distanz mit dem minimalsten Abstand und bei zwei Clustern den besten Score vorweisen kann. In *Plot 11* ist schlussendlich der Packstück-Datensatz mit den Cluster-Ergebnissen aus den L1- und Single-Linkage-Methoden visualisiert.
 
 ![Affinity comparison barchart](images/Affinity_Comparison_Barchart.png) \
-*Plot 5: Vergleich der Methoden zur Distanz-Berechnung* \
+*Plot 9: Vergleich der Methoden zur Distanz-Berechnung* \
 *Quelle: Eigendarstellung mittels Matplotlib*
 
 ![Comparison linkage methods and amount clusters](images/Comparison_Linkage_Method_Amount_Clusters.png) \
-*Plot 6: Vergleich der Methoden zur Cluster-Bildung und der Anzahl der Cluster* \
+*Plot 10: Vergleich der Methoden zur Cluster-Bildung und der Anzahl der Cluster* \
 *Quelle: Eigendarstellung mittels Matplotlib*
 
 ![Package data with hierarchical clusters](images/Package_Data_Hierarchical_Clusters.png) \
-*Plot 7: Der Packstück-Datensatz mit der vorgeschlagenen Anzahl von zwei Hierarchischen-Clustern* \
+*Plot 11: Der Packstück-Datensatz mit der vorgeschlagenen Anzahl von zwei Hierarchischen-Clustern* \
 *Quelle: Eigendarstellung mittels Matplotlib*
 
 ## 6. Fazit
