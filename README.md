@@ -164,18 +164,14 @@ Nachdem nun verschiedene Methoden zur Distanz-Berechnung vorliegen, fehlt für d
 
 Für einen Vergleich der verschiedenen Methoden zur Distanz-Berechnung, Cluster-Bildung und der daraus entstehenden Cluster, ist gemäß *Shahapure, Ketan R./Nicholas, Charles (2020)* der **Silhouette-Score** eine geeignete Metrik. Dieser Score setzt sich aus dem Mittelwert aller Silhouetten-Koeffizienten zusammen. Ein Score nahe **1** bedeutet dabei, dass die Datenpunkte in den korrekten Cluster liegen. Wohingegen ein Score nahe **-1** aussagt, dass die Datenpunkte in den falschen Clustern liegen. Ist der Score nahe **0**, existieren möglicherweise Überlappungen zwischen den Clustern.
 
-In *Plot 9* ist ein Vergleich der in Scikit-Learn vorhanden Methoden zur Distanz-Berechnung zu sehen. Die Manhattan-Distanz und die Summennorm weißen dabei den höchsten Score auf. Darauf folgend könnenen die Methoden zur Cluster-Bildung verglichen werden - siehe *Plot 10*. Dabei sei angemerkt, dass die Ward-Methode in Scikit-Learn lediglich mit der euklidischen Distanz genutzt werden kann. Durch *Plot 10* ist ersichtlich, dass die L1-Distanz mit dem minimalsten Abstand und bei zwei Clustern den besten Score vorweisen kann. In *Plot 11* ist schlussendlich der Packstück-Datensatz mit den Cluster-Ergebnissen aus den L1- und Single-Linkage-Methoden visualisiert.
+In *Plot 9* ist ein Vergleich der in Scikit-Learn vorhandenen Methoden zur Distanz-Berechnung und Cluster-Bildung zu sehen. Diese Methoden werden jeweils durch den Silhouette-Score verglichen. Dabei sei angemerkt, dass die Ward-Methode in Scikit-Learn lediglich mit der euklidischen Distanz genutzt werden kann. Durch *Plot 9* ist schlussendlich ersichtlich, dass die L1- & Manhattan-Distanz mit dem minimalsten Abstand und bei zwei Clustern den besten Score vorweisen kann. In *Plot 10* ist schlussendlich der Packstück-Datensatz mit den Cluster-Ergebnissen aus den L1- und Single-Linkage-Methoden visualisiert.
 
-![Affinity comparison barchart](images/Affinity_Comparison_Barchart.png) \
-*Plot 9: Vergleich der Methoden zur Distanz-Berechnung* \
-*Quelle: Eigendarstellung mittels Matplotlib*
-
-![Comparison linkage methods and amount clusters](images/Comparison_Linkage_Method_Amount_Clusters.png) \
-*Plot 10: Vergleich der Methoden zur Cluster-Bildung und der Anzahl der Cluster* \
-*Quelle: Eigendarstellung mittels Matplotlib*
+![Comparison affinity and linkage methods and amount clusters](images/Heatmap_Affinity_Linkage_Hierachical.png) \
+*Plot 9: Vergleich der Methoden zur Distanz-Berechnung, Cluster-Bildung und der Anzahl der Cluster* \
+*Quelle: Eigendarstellung mittels Seaborn*
 
 ![Package data with hierarchical clusters](images/Package_Data_Hierarchical_Clusters.png) \
-*Plot 11: Der Packstück-Datensatz mit der vorgeschlagenen Anzahl von zwei Hierarchischen-Clustern* \
+*Plot 10: Der Packstück-Datensatz mit der vorgeschlagenen Anzahl von zwei Hierarchischen-Clustern* \
 *Quelle: Eigendarstellung mittels Matplotlib*
 
 ## 6. Fazit
