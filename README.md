@@ -146,13 +146,13 @@ Wie bereits im Dendrogramm (*Plot 8*) zu sehen, ist die Distanz der Datenpunkte 
 - Euklidische Distanz: $$ d(p, q) = {\sqrt{ \sum_{i=1}^n (q_i - p_i)^2 } } $$
 - Quadratische euklidische Distanz *(nicht nativ in Scikit-learn)*: $$ d^2(p, q) = {\sqrt{ \sum_{i=1}^n (q_i - p_i)^2 } } $$
 - Manhattan Distanz: $$ d(p, q) = { \sum_{i=1}^n | q_i - p_i | } $$
-- Maximum Distanz *(nicht nativ in Scikit-learn)*
-- Mahalanobis Distanz *(nicht nativ in Scikit-learn)*
+- Maximum Distanz *(nicht nativ in Scikit-learn)*: $$ ||x||_{max} = max(|x_1|, ..., |x_n|) $$
+- Mahalanobis Distanz *(nicht nativ in Scikit-learn)*: $$ d(p,q) = \sqrt{(p-q)^T S^{-1} (p-q)} $$
 - Kosinus Distanz: $$ d(p, q) = 1 - { \frac{\sum_{i=1}^n q_i p_i}{\sum_{i=1}^n q_i^2 \sum_{i=1}^n p_i^2} } $$
 
 Derweil beschreiben *Carvalho, Alexandre X. Y. u. a. (2009)* zwei weitere Verfahren zur Distanz-Berechnung:
-- L2 (euklidische Norm)
-- L1 (Summennorm)
+- L2 (euklidische Norm): $$ ||v||_2 = \sqrt{\sum_{i=1}^n x^2} $$
+- L1 (Summennorm): $$ ||x||_1 = {\sum_{i=1}^n |x_i|} $$
 
 Nachdem nun verschiedene Methoden zur Distanz-Berechnung vorliegen, fehlt für die Bildung der Cluster eine Methode zu welcher Distanz ein Cluster gebildet werden kann. *Murtagh, F. (1983)* führt dabei sechs Möglichkeiten auf:
 - **Single linkage**, dabei wird der minimalste Abstand zwischen zwei Clustern gemessen. Es werden die Cluster mit dem geringsten Wert kombiniert
