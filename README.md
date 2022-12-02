@@ -120,7 +120,7 @@ In der gewöhnlichen k-means Analyse werden die intialen Clusterzentren mit glei
 Einen Vorschlag zur optimierten Auswahl der initialen Clusterzentren machen David Arthur and Sergei Vassilvitskii im Jahr 2007. Grundlage der von Ihnen vorgeschlagenen Verbessrung k-means++ bildet eine Anpassung der Wahrscheinlichkeitsverteilung bei der Auswahl der initalen Clusterzentren.\
 Statt alle Clusterzentren mit einer gleichförmigen Wahrscheinlichkeit innerhlab des Datenraumes auszuwählen wird lediglich das erste Clusterzentrum vollständig zufällig ausgewählt. Bei der Auwahl der weiteren Clusterzentren steigt die Wahrscheinlichkeit einer Wahl mit der Entferung zum nächstegelenen, bereits gewählten Clusterzentrum. Diese angepasste Auswahl hat in zahlreichen Experimenten zu einer geringeren Varianz innerhalb der Cluster geführt, als mit einer regulären k-means Analyse erreicht werden konnte *(vgl. Arthur, D. (2007))*.
 
-Für den vorliegenden Datensatz kann mit der Anwendung von k-means++ keine weitere Veränderung des Ergebnisses erreicht werden, wie in *Plot 7* zu erkennen ist.\
+Für den vorliegenden Datensatz kann mit der Anwendung von k-means++ keine weitere Veränderung des Ergebnisses erreicht werden, wie in *Plot 7* zu erkennen ist.
 
 ![k-means++ mit 4 Clustern](images/k-means_plus.png)\
 *Plot 7: k-means++ mit k = 4 Clustern*\
@@ -175,10 +175,9 @@ In *Plot 9* ist ein Vergleich der in Scikit-Learn vorhandenen Methoden zur Dista
 *Quelle: Eigendarstellung mittels Matplotlib*
 
 ## 6. Fazit
-- Zu verwendete Cluster-Methode hängt von Verteilung der Daten ab
-- Daten-Aufbereitung daher von zentraler Bedeutung
-- Der Silhouette-Score ist eine wichtige Metrik zur Bewertung des Clusterings
-- Weitere mögliche Cluster-Methoden: GMM, DBSCAN, …
-- Relevant: Interpretation des Ergebnisses
+- **Lessons-Learned #1**: Zu verwendete Cluster-Methode hängt von Verteilung der Daten ab. Die Daten-Aufbereitung ist daher von zentraler Bedeutung
+- **Lessons-Learned #2**: Der Silhouette-Score ist eine wichtige Metrik zur Bewertung des Clusterings
+- **Ausblick**: Weitere mögliche Cluster-Methoden: GMM, DBSCAN, …
+- **Relevant**: Interpretation des Ergebnisses, siehe dazu *Kapitel 7*
 
 ## 7. Kritische Reflexion
