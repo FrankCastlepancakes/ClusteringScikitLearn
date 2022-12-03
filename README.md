@@ -181,4 +181,33 @@ Daher wird diese Kombination für die in *Plot 8* dargestellte Clusteranalyse de
 - **Ausblick**: Weitere mögliche Cluster-Methoden: GMM, DBSCAN, …
 - **Relevant**: Interpretation des Ergebnisses, siehe dazu *Kapitel 7*
 
-## 7. Kritische Reflexion
+## 7. Interpretation der Ergebnisse
+
+Um die Ergebnisse der Clusteranalysen in den Sachverhalt des betrachteten Datensatzes einzuordnen wird die eingangs gestellte Frage auf die Ergebnisse bezogen.\
+"Welche Gruppen gleichartiger Packstücke können gebildet werden, um diese mit spezialisierten Teams zu bearbeiten?"
+
+Die Ergebnisse der Analyse-Methoden liefern hierzu keine eindeutige Antwort. Zwar wird in beiden Fällen, die selbe Anzahl von Clustern (zwei) als optimale Anzahl identifiziert, jedoch fällt die Ausprägung dieser Cluster unterschiedlich aus.\
+Dementsprechend kann das Ergebnis nicht ohne weitere Betrachtung in die Praxis übertragen werden. Es sind die Rahmenbedingungen zu betrachten, die im unternehmerischen Umfeld vorherrschen.\
+Im vorliegende Fall, der Bearbeitung von Packstücken, sind beispielhaft folgende Faktoren zu berücksichtigen:
+- Anzahl und Qualifikation der Mitarbeiter\
+  Kann eine Aufteilung vorgenommen werden?\
+  Sind für manche Aufgaben spezialisierte Qualifikationen nötig?
+- Unterschiede in Bearbeitungprozessen\
+  Gibt es Unterschiede in den internen Prozessen bei verschiedenen Packstückgrößen, die z.B. zu anderen Bearbeitungszeiten führen?\
+  Gibt es spezielle Anforderungen z.B. Sondergenehmigungen für den Straßentransport? 
+- Externe Einschränkungen\
+  Sind verschiedene Partner (z.B. Spedition, Paketdienst) nötig?\
+  Gibt es Regularien (z.B. max. Gewicht für Paketdienst), die einzuhalten sind?
+
+Unter Berücksichtigung dieser Kriterien scheint eine Aufteilung ein zwei Gruppen gleichartiger Packstücke sinnvoll.\
+- "Paket und Speditionsware"\
+  Packstücke bis 5,0m³ und 2.000kg
+- "Großware und Sondertransporte"\
+  Packstücke ab 10m³ und 1.000 bis 5.000kg
+
+![Package_clustering_discussed](images/Package_Data_Clusters_discussed.png) \
+*Plot 9: Zur praktischen Anwendung betrachtete Cluster-Zuordnung* \
+*Quelle: Eigendarstellung mittels Matplotlib*
+
+ 
+ 
