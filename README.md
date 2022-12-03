@@ -76,7 +76,55 @@ Die Bearbeitung dieser Aufgaben ist durch die Grafiken *Plot 2* & *Plot 3* und *
 *Tabelle 2: Die ersten zehn Zeilen des Datensatzes vor und nach der Aufbereitung* \
 *Quelle: Eigendarstellung durch Pandas*
 
-## 4. Cluster-Analyse: KMeans
+## 4. Cluster-Analyse: Hierarchisch
+
+Um einen Eindruck für die hierarchische Cluster-Bildung in einem bestimmten Datensatz zu erlangen, führen *Schonlau, Matthias (2002)* das sogenannte **Dendrogramm** auf. Das Dendrogramm kann zu einem gewissen Teil mit dem Aufbau eines Familienstammbaums verglichen werden: Je nach Betrachtungsrichtung fügen sich die Datenpunkte (vgl. zu einzelne Personen im Familienstammbaum) entweder zusammen oder spalten sich auf. Für den Packstück-Datensatz ist das Dendrogramm unter *Plot 4* zu sehen.
+
+![Dendrogram package data](images/Dendrogram_Package_Data.png) \
+*Plot 4: Dendrogramm des Packstück-Datensatzes (Linkage ist ‘ward‘)* \
+*Quelle: Eigendarstellung mittels Matplotlib*
+
+#
+Die Autoren *Sasirekha, K./Baby, P. (2013)* beschreiben derweil die zwei unterschiedlichen Möglichkeiten zur Clusterbildung, welche ebenfalls am Dendrogramm abzulesen sind:
+- Divisiv (dt. spaltend), d.h. die Cluster werden von oben nach unten rekursiv gebildet
+- Agglomerative, d.h. die Cluster von unten nach oben. Jeder Datenpunkt bekommt dabei zu Beginn sein eigenes Cluster. Diese einzelnen Cluster werden rekursiv verschmolzen
+
+In den folgenden Abschnitten soll der Fokus auf der agglomerativen Clusterbildung liegen.
+
+Wie bereits im Dendrogramm (*Plot 8*) zu sehen, ist die Distanz der Datenpunkte zueinander relevant für die Clusterbildung. Nach *Sasirekha, K./Baby, P. (2013)* existieren zur Distanz-Berechnung folgende mathematische Verfahren:
+- Euklidische Distanz: $$ d(p, q) = {\sqrt{ \sum_{i=1}^n (q_i - p_i)^2 } } $$
+- Quadratische euklidische Distanz *(nicht nativ in Scikit-learn)*: $$ d^2(p, q) = {\sqrt{ \sum_{i=1}^n (q_i - p_i)^2 } } $$
+- Manhattan Distanz: $$ d(p, q) = { \sum_{i=1}^n | q_i - p_i | } $$
+- Maximum Distanz *(nicht nativ in Scikit-learn)*: $$ ||x||_{max} = max(|x_1|, ..., |x_n|) $$
+- Mahalanobis Distanz *(nicht nativ in Scikit-learn)*: $$ d(p,q) = \sqrt{(p-q)^T S^{-1} (p-q)} $$
+- Kosinus Distanz: $$ d(p, q) = 1 - { \frac{\sum_{i=1}^n q_i p_i}{\sum_{i=1}^n q_i^2 \sum_{i=1}^n p_i^2} } $$
+
+Derweil beschreiben *Carvalho, Alexandre X. Y. u. a. (2009)* zwei weitere Verfahren zur Distanz-Berechnung:
+- L2 (euklidische Norm): $$ ||v||_2 = \sqrt{\sum_{i=1}^n x^2} $$
+- L1 (Summennorm): $$ ||x||_1 = {\sum_{i=1}^n |x_i|} $$
+
+Nachdem nun verschiedene Methoden zur Distanz-Berechnung vorliegen, fehlt für die Bildung der Cluster eine Methode zu welcher Distanz ein Cluster gebildet werden kann. *Murtagh, F. (1983)* führt dabei sechs Möglichkeiten auf:
+- **Single linkage**, dabei wird der minimalste Abstand zwischen zwei Clustern gemessen. Es werden die Cluster mit dem geringsten Wert kombiniert
+- **Complete linkage**, dabei wird der maximalste Abstand zwischen zwei Clustern gemessen. Es werden die Cluster mit dem geringsten Wert kombiniert
+- **Average linkage**, dabei wird der Mittelwert aller Abstände zwischen zwei Clustern gemessen. Es werden die Cluster mit dem geringsten Wert kombiniert
+- **Median linkage** *(nicht nativ in Scikit-learn)*, dabei wird der Median aller Abstände zwischen zwei Clustern gemessen. Es werden die Cluster mit dem geringsten Wert kombiniert
+- **Centroid linkage** *(nicht nativ in Scikit-learn)*, dabei wird der Abstand zweier Cluster-Schwerpunkte gemessen. Es werden die Cluster mit dem geringsten Wert kombiniert
+- **Ward‘s method**, dabei wird sich für die Cluster-Kombination mit minalsten Zuwachs der totalen Varianz entschieden
+
+Für einen Vergleich der verschiedenen Methoden zur Distanz-Berechnung, Cluster-Bildung und der daraus entstehenden Cluster, ist gemäß *Shahapure, Ketan R./Nicholas, Charles (2020)* der **Silhouette-Score** eine geeignete Metrik. Dieser Score setzt sich aus dem Mittelwert aller Silhouetten-Koeffizienten zusammen. Ein Score nahe **1** bedeutet dabei, dass die Datenpunkte in den korrekten Cluster liegen. Wohingegen ein Score nahe **-1** aussagt, dass die Datenpunkte in den falschen Clustern liegen. Ist der Score nahe **0**, existieren möglicherweise Überlappungen zwischen den Clustern.
+
+In *Plot 5* ist ein Vergleich der in Scikit-Learn vorhandenen Methoden zur Distanz-Berechnung und Cluster-Bildung zu sehen. Diese Methoden werden jeweils durch den Silhouette-Score verglichen. Dabei sei angemerkt, dass die Ward-Methode in Scikit-Learn lediglich mit der euklidischen Distanz genutzt werden kann. Durch *Plot 5* ist schlussendlich ersichtlich, dass die L1- & Manhattan-Distanz mit dem minimalsten Abstand und bei zwei Clustern den besten Score vorweisen kann. In *Plot 6* ist schlussendlich der Packstück-Datensatz mit den Cluster-Ergebnissen aus den L1- und Single-Linkage-Methoden visualisiert.
+
+![Comparison affinity and linkage methods and amount clusters](images/Heatmap_Affinity_Linkage_Hierachical.png) \
+*Plot 5: Vergleich der Methoden zur Distanz-Berechnung, Cluster-Bildung und der Anzahl der Cluster* \
+*Quelle: Eigendarstellung mittels Seaborn*
+
+![Package data with hierarchical clusters](images/Package_Data_Hierarchical_Clusters.png) \
+*Plot 6: Der Packstück-Datensatz mit der vorgeschlagenen Anzahl von zwei Hierarchischen-Clustern* \
+*Quelle: Eigendarstellung mittels Matplotlib*
+
+
+## 5. Cluster-Analyse: KMeans
 
 Die K-Means Analyse ist eine der am häufigsten angewandten Techniken im Rahmen von partitionierenden Cluster-Analysen.\
 Grundlage ist der in 1982 veröffentlichte Lloyds-Algorithmus *(vgl. Shindler, M)*.\
@@ -127,52 +175,6 @@ Für den vorliegenden Datensatz kann mit der Anwendung von k-means++ keine weite
 *Quelle: Eigendarstellung mittels Matplotlib*
 
 
-## 5. Cluster-Analyse: Hierarchisch
-
-Um einen Eindruck für die hierarchische Cluster-Bildung in einem bestimmten Datensatz zu erlangen, führen *Schonlau, Matthias (2002)* das sogenannte **Dendrogramm** auf. Das Dendrogramm kann zu einem gewissen Teil mit dem Aufbau eines Familienstammbaums verglichen werden: Je nach Betrachtungsrichtung fügen sich die Datenpunkte (vgl. zu einzelne Personen im Familienstammbaum) entweder zusammen oder spalten sich auf. Für den Packstück-Datensatz ist das Dendrogramm unter *Plot 8* zu sehen.
-
-![Dendrogram package data](images/Dendrogram_Package_Data.png) \
-*Plot 8: Dendrogramm des Packstück-Datensatzes (Linkage ist ‘ward‘)* \
-*Quelle: Eigendarstellung mittels Matplotlib*
-
-#
-Die Autoren *Sasirekha, K./Baby, P. (2013)* beschreiben derweil die zwei unterschiedlichen Möglichkeiten zur Clusterbildung, welche ebenfalls am Dendrogramm abzulesen sind:
-- Divisiv (dt. spaltend), d.h. die Cluster werden von oben nach unten rekursiv gebildet
-- Agglomerative, d.h. die Cluster von unten nach oben. Jeder Datenpunkt bekommt dabei zu Beginn sein eigenes Cluster. Diese einzelnen Cluster werden rekursiv verschmolzen
-
-In den folgenden Abschnitten soll der Fokus auf der agglomerativen Clusterbildung liegen.
-
-Wie bereits im Dendrogramm (*Plot 8*) zu sehen, ist die Distanz der Datenpunkte zueinander relevant für die Clusterbildung. Nach *Sasirekha, K./Baby, P. (2013)* existieren zur Distanz-Berechnung folgende mathematische Verfahren:
-- Euklidische Distanz: $$ d(p, q) = {\sqrt{ \sum_{i=1}^n (q_i - p_i)^2 } } $$
-- Quadratische euklidische Distanz *(nicht nativ in Scikit-learn)*: $$ d^2(p, q) = {\sqrt{ \sum_{i=1}^n (q_i - p_i)^2 } } $$
-- Manhattan Distanz: $$ d(p, q) = { \sum_{i=1}^n | q_i - p_i | } $$
-- Maximum Distanz *(nicht nativ in Scikit-learn)*: $$ ||x||_{max} = max(|x_1|, ..., |x_n|) $$
-- Mahalanobis Distanz *(nicht nativ in Scikit-learn)*: $$ d(p,q) = \sqrt{(p-q)^T S^{-1} (p-q)} $$
-- Kosinus Distanz: $$ d(p, q) = 1 - { \frac{\sum_{i=1}^n q_i p_i}{\sum_{i=1}^n q_i^2 \sum_{i=1}^n p_i^2} } $$
-
-Derweil beschreiben *Carvalho, Alexandre X. Y. u. a. (2009)* zwei weitere Verfahren zur Distanz-Berechnung:
-- L2 (euklidische Norm): $$ ||v||_2 = \sqrt{\sum_{i=1}^n x^2} $$
-- L1 (Summennorm): $$ ||x||_1 = {\sum_{i=1}^n |x_i|} $$
-
-Nachdem nun verschiedene Methoden zur Distanz-Berechnung vorliegen, fehlt für die Bildung der Cluster eine Methode zu welcher Distanz ein Cluster gebildet werden kann. *Murtagh, F. (1983)* führt dabei sechs Möglichkeiten auf:
-- **Single linkage**, dabei wird der minimalste Abstand zwischen zwei Clustern gemessen. Es werden die Cluster mit dem geringsten Wert kombiniert
-- **Complete linkage**, dabei wird der maximalste Abstand zwischen zwei Clustern gemessen. Es werden die Cluster mit dem geringsten Wert kombiniert
-- **Average linkage**, dabei wird der Mittelwert aller Abstände zwischen zwei Clustern gemessen. Es werden die Cluster mit dem geringsten Wert kombiniert
-- **Median linkage** *(nicht nativ in Scikit-learn)*, dabei wird der Median aller Abstände zwischen zwei Clustern gemessen. Es werden die Cluster mit dem geringsten Wert kombiniert
-- **Centroid linkage** *(nicht nativ in Scikit-learn)*, dabei wird der Abstand zweier Cluster-Schwerpunkte gemessen. Es werden die Cluster mit dem geringsten Wert kombiniert
-- **Ward‘s method**, dabei wird sich für die Cluster-Kombination mit minalsten Zuwachs der totalen Varianz entschieden
-
-Für einen Vergleich der verschiedenen Methoden zur Distanz-Berechnung, Cluster-Bildung und der daraus entstehenden Cluster, ist gemäß *Shahapure, Ketan R./Nicholas, Charles (2020)* der **Silhouette-Score** eine geeignete Metrik. Dieser Score setzt sich aus dem Mittelwert aller Silhouetten-Koeffizienten zusammen. Ein Score nahe **1** bedeutet dabei, dass die Datenpunkte in den korrekten Cluster liegen. Wohingegen ein Score nahe **-1** aussagt, dass die Datenpunkte in den falschen Clustern liegen. Ist der Score nahe **0**, existieren möglicherweise Überlappungen zwischen den Clustern.
-
-In *Plot 9* ist ein Vergleich der in Scikit-Learn vorhandenen Methoden zur Distanz-Berechnung und Cluster-Bildung zu sehen. Diese Methoden werden jeweils durch den Silhouette-Score verglichen. Dabei sei angemerkt, dass die Ward-Methode in Scikit-Learn lediglich mit der euklidischen Distanz genutzt werden kann. Durch *Plot 9* ist schlussendlich ersichtlich, dass die L1- & Manhattan-Distanz mit dem minimalsten Abstand und bei zwei Clustern den besten Score vorweisen kann. In *Plot 10* ist schlussendlich der Packstück-Datensatz mit den Cluster-Ergebnissen aus den L1- und Single-Linkage-Methoden visualisiert.
-
-![Comparison affinity and linkage methods and amount clusters](images/Heatmap_Affinity_Linkage_Hierachical.png) \
-*Plot 9: Vergleich der Methoden zur Distanz-Berechnung, Cluster-Bildung und der Anzahl der Cluster* \
-*Quelle: Eigendarstellung mittels Seaborn*
-
-![Package data with hierarchical clusters](images/Package_Data_Hierarchical_Clusters.png) \
-*Plot 10: Der Packstück-Datensatz mit der vorgeschlagenen Anzahl von zwei Hierarchischen-Clustern* \
-*Quelle: Eigendarstellung mittels Matplotlib*
 
 ## 6. Fazit
 - **Lessons-Learned #1**: Zu verwendete Cluster-Methode hängt von Verteilung der Daten ab. Die Daten-Aufbereitung ist daher von zentraler Bedeutung
