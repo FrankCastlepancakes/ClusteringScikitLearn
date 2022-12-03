@@ -133,47 +133,46 @@ Ist die Zuordnung aller Datenpunkte erfolgt, wird der Mittelwert aller Datenpunk
 Diese Schritte werden iterativ ausgeführt, wobei Datenpunkte zwischen den Clustern wechseln können.\
 Der iterative Prozess wird beendet, sobald keine Neuzuordnung von Datenpunkten mehr erfolgt.
 
-![Prozess k-means](images/Prozess_k-means.png)\
+![k-means Process](images/Prozess_k-means.png)\
 *Prozess der k-means Methode*\
 *Entnommen aus: Backhaus, K. et al. (2021), S.567*
 
-Für den Vorliegenden Datensatz wird die k-means Analyse im Folgenden mit *k* = 3 Clustern angewandt.\
-Die zugrundeliegende Annahme besteht darin, dass bei den Packstücken eine Aufteilung in Kleingut, Speditionsware und Sondertransporte vorliegt.
+Die wesentlichen Schritte, die Definition der initialen Clusterzentren (Cluster-Seeds) sowie die Zuordnung der Datenpunkte zu den Clustern haben in den vergangene Jahren verschieden Weiterentwicklungen erfahren.\
+Einen Vorschlag zur optimierten Auswahl der initialen Clusterzentren machen David Arthur und Sergei Vassilvitskii im Jahr 2007. Grundlage der von Ihnen vorgeschlagenen Verbessrung k-means++ bildet eine Anpassung der Wahrscheinlichkeitsverteilung bei der Auswahl der initalen Clusterzentren.\
+Statt alle Clusterzentren mit einer gleichförmigen Wahrscheinlichkeit innerhalb des Datenraumes auszuwählen wird lediglich das erste Clusterzentrum vollständig zufällig ausgewählt. Bei der Auwahl der weiteren Clusterzentren steigt die Wahrscheinlichkeit einer Wahl mit der Entferung zum nächstgelegenen, bereits gewählten Clusterzentrum. Diese angepasste Auswahl hat in zahlreichen Experimenten zu einer geringeren Varianz innerhalb der Cluster geführt, als mit einer regulären k-means Analyse erreicht werden konnte *(vgl. Arthur, D. (2007))*.\
 
-![k-means mit 3 Clustern](images/k-means_mit_3_Clustern.png) \
-*Plot 4: k-means mit k = 3 Clustern*\
+Für die Zuordnung der Datenpunkte zu den Clustern schlägt Charles Elkan eine Optimierung vor *(Elkan, C. 2007)*. Kern des nach seinem Autor benannten Elkan-Algorithmus ist die Anwendung der Dreiecksungleichung. Diese besagt, dass eine Seite eines Dreiecks maximal so lange sein kann, wie die Summe der beiden anderen. Elkan bringt diese Gleichung für den k-means Algorithmus folgendermaßen zur Anwendung:
+
+Wenn 1/2d(*c*,*c'*) >= d(*x*,*c*) dann d(*x*,*c'*) >= d(*x*,*c*)
+
+Wenn der halbe Abstand zwischen den Clusterzentren *c* und *c'* größer ist, als der Abstand von Datenpunkt *x* zu *c*, so muss der Abstand von *x* zu *c'* größer sein, als von *x* zu *c*.\
+Folglich kann ohne eine genaue Berechnung von d(*x*,*c'*) eine sichere Zuordnung von *x* zum Cluster um *c'* vorgenommen werden.
+Hierdurch kann die Abfolge der k-means Methode beschleunigt werden, indem redundante Berechnungen nicht gemacht werden müssen.
+
+#
+Im Rahmen der scikit.learn Anwendung für den k-means Algorithmus werden k-means++ und der Elkan-Algorithmus angeboten. Damit ergeben sich folgende Varianten des k-means Algorithmus.
+
+- **random, Lloyd**\
+  Zufällige Auswahl der Cluster Seeds, Zuordnung nach dem Lloyd-Algorithmus
+- **random, Elkan**\
+  Zufällige Auswahl der Cluster Seeds, Zuordnung nach dem Elkan-Algorithmus
+- **k-means++, Lloyd**\
+  Auswahl der Cluster Seeds nach k-means++, Zuordnung nach dem Lloyd-Algorithmus
+- **k-means++, Elkan**\
+  Auswahl der Cluster Seeds nach k-means++, Zuordnung nach dem Elkan-Algorithmus
+ 
+ Um die Eignung dieser Kombinationen für den Packstück-Datensatz zu untersuchen wird analog zur Anwendung bei der hierachischen Clusterung auch hier der Silhouette-Score genutzt.
+
+![Vergleich Cluster-Seeds und Algorithmus](images/Heatmap_k-means.png) \
+*Plot 7: Vergleich der Methoden zur Cluster-Seed Definition und des Berechnungs-Algorithmus*\
+*Quelle: Eigendarstellung mittels Seaborn*
+
+Die in *Plot 7* dargestellte Heatmap zeigt eindeutig, dass zwei Cluster die geeignetste Anzahl für den vorliegenden Datensatz ist. Bei dieser Clusteranzahl wir der höchste Silhouette-Score erreicht. Darüber hinaus stellt sich kein Unterschied zwischen den verschiedenen Varianten der k-means Methode ein. Bei Betrachtung der gesamten Heatmap lässt sich jedoch festellen, dass die insgesamte Qualität der Cluster bei einer Anwendung von k-means++ mit Elkan-Algorithmus am höchsten ist.\
+Daher wird diese Kombination für die in *Plot 8* dargestellte Clusteranalyse des Packstück-Datensatzes verwendet.
+
+![Package data with k-means clusters](images/Package_Data_k-means_Clusters.png) \
+*Plot 8: Der Packstück-Datensatz mit der vorgeschlagenen Anzahl von zwei Clustern nach k-means* \
 *Quelle: Eigendarstellung mittels Matplotlib*
-
-Eine Betrachtung von *Plot 4* zeigt, dass die durch k-means definierten Cluster stark unterschiedliche Varianzen aufweisen. Auffallend ist dabei eine sehr unterschiedliche Verteilung innerhalb des Clusters mit den kleinsten Packstücken. Dies legt die Frage nahe, ob die Anzahl der Cluster mit *k* = 3 richtig gewählt ist.
-
-Einen Hinweis auf die ideale Anzahl von Clustern kann die sogeannnte Elbow-Analyse geben.\
-Bei dieser wird die Varainz als Durchschnitt der quadrierten euklidischen Distanz errechnet. In einem Diagramm wird diese Varianz dann in Abhängigkeit der Clusteranzahl abgebildet.\
-Für den gewählten Datensatz ergibt sich dabei die folgende Darstellung (*Plot 5*).
-
-![Elbow-Methode k-means](images/Elbow-Methode_k-means.png) \
-*Plot 5: Darstellung der Varianz in Abhängigkeit der Cluster-Anzahl*
-*Quelle: Eigendarstellung mittels Matplotlib*
-
-In der in *Plot 5* dargestellten Elbow-Analyse weißt ein Knick, der 'Elbow' auf die optimale Anzahl von Clustern hin.\
-Nach *Backhaus, K. et al.(2021)* ist der bei *k* = 2 zu sehende Knick bei der Interpretation zu ignorieren, da zwischen einem und zwei Clustern immer die größte Änderung in der Varianz zu erwarten ist. Für den vorliegenden Datensatz ist enstprechend der Elbow-Analyse also eine Anzahl von *k* = 4 Clustern zu empfehlen.\
-Das Ergebnis der k-Means Analyse mit *k* = 4 Clustern wird in *Plot 6* abgebildet.
-
-![k-means mit 4 Clustern](images/k-means_mit_4_Clustern.png) \
-*Plot 6: k-means mit k = 4 Clustern*\
-*Quelle: Eigendarstellung mittels Matplotlib*
-
-Eine weitere Optimierung des Ergebnisses aus dem k-means Verfahren kann durch die Optimierung der Clusterzentren bei der initialen Auswahl erreicht werden.\
-In der gewöhnlichen k-means Analyse werden die intialen Clusterzentren mit gleichförmiger Wahrscheinlichkeit über den gesamten Datenraum ausgewählt. Dies kann das Ergebnis des iterativen Prozesses negativ beinflussen und zu suboptimalen Lösungen führen *(vgl. Arthur, D.(2007))*.
-
-Einen Vorschlag zur optimierten Auswahl der initialen Clusterzentren machen David Arthur and Sergei Vassilvitskii im Jahr 2007. Grundlage der von Ihnen vorgeschlagenen Verbessrung k-means++ bildet eine Anpassung der Wahrscheinlichkeitsverteilung bei der Auswahl der initalen Clusterzentren.\
-Statt alle Clusterzentren mit einer gleichförmigen Wahrscheinlichkeit innerhlab des Datenraumes auszuwählen wird lediglich das erste Clusterzentrum vollständig zufällig ausgewählt. Bei der Auwahl der weiteren Clusterzentren steigt die Wahrscheinlichkeit einer Wahl mit der Entferung zum nächstegelenen, bereits gewählten Clusterzentrum. Diese angepasste Auswahl hat in zahlreichen Experimenten zu einer geringeren Varianz innerhalb der Cluster geführt, als mit einer regulären k-means Analyse erreicht werden konnte *(vgl. Arthur, D. (2007))*.
-
-Für den vorliegenden Datensatz kann mit der Anwendung von k-means++ keine weitere Veränderung des Ergebnisses erreicht werden, wie in *Plot 7* zu erkennen ist.
-
-![k-means++ mit 4 Clustern](images/k-means_plus.png)\
-*Plot 7: k-means++ mit k = 4 Clustern*\
-*Quelle: Eigendarstellung mittels Matplotlib*
-
 
 
 ## 6. Fazit
